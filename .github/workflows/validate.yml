@@ -1,1 +1,26 @@
+name: validate
 
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      id: npm-install
+      run: npm install
+
+    - name: Run unit tests
+      id: run-unit-tests
+      run: npm run test
+
+    - name: Docker Build
+      id: docker-build
+      run: docker build -t LeonaKurtaj/api-sample .
